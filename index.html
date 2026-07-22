@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Kopi Senja - Menu & Pembayaran</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #0f0d0e;
+            --bg-card: #191618;
+            --accent-primary: #d4a373;
+            --accent-hover: #e6b88a;
+            --text-title: #fefae0;
+            --text-body: #cccccc;
+            --text-muted: #8e8d8a;
+            --border-color: rgba(212, 163, 115, 0.15);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-body);
+            line-height: 1.6;
+        }
+
+        /* Hero Banner */
+        .hero {
+            position: relative;
+            height: 50vh;
+            min-height: 380px;
+            background: linear-gradient(rgba(15, 13, 14, 0.7), rgba(15, 13, 14, 0.95)),
+                        url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero-subtitle {
+            color: var(--accent-primary);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
+            color: var(--text-title);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .hero-desc {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.3rem;
+            color: var(--text-title);
+            margin-bottom: 10px;
+        }
+
+        .section-divider {
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent-primary);
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+
+        /* Menu Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-card {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: var(--card-shadow);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(212, 163, 115, 0.15);
+            border-color: var(--accent-primary);
+        }
+
+        .card-img-wrapper {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .menu-card:hover .card-img-wrapper img {
+            transform: scale(1.08);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: rgba(15, 13, 14, 0.85);
+            color: var(--accent-primary);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(4px);
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 10px;
+        }
+
+        .item-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--text-title);
+            font-weight: 600;
+        }
+
+        .item-price {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .item-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Section QRIS Payment */
+        .qris-section {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+        }
+
+        .qris-card {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 16px;
+            max-width: 320px;
+            width: 100%;
+            margin: 20px 0;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .qris-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+        }
+
+        .qris-info {
+            margin-top: 10px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Info Section */
+        .info-section {
+            background-color: var(--bg-card);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+            border: 1px solid var(--border-color);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+
+        .info-box h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--accent-primary);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .info-box p {
+            color: var(--text-body);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.3rem; }
+            .section-title { font-size: 1.8rem; }
+            .container { padding: 40px 15px; }
+            .qris-section { padding: 25px 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Header -->
+    <header class="hero">
+        <div class="hero-content">
+            <p class="hero-subtitle">Nikmati Setiap Tegukan</p>
+            <h1 class="hero-title">Kedai Kopi Senja</h1>
+            <p class="hero-desc">Menyajikan kopi kualitas terbaik bersumber langsung dari petani lokal, diseduh sepenuh hati untuk melengkapi momen Anda.</p>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container">
+        
+        <section class="section-header">
+            <h2 class="section-title">Daftar Menu Spesial</h2>
+            <div class="section-divider"></div>
+        </section>
+
+        <!-- Menu Grid (10 Items) -->
+        <div class="menu-grid">
+            
+            <!-- 1. Espresso -->
+            <article class="menu-card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=600&q=80" alt="Espresso" loading="lazy">
+                    <span class="card-badge">Espresso Based</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-header">
+                        <h3 class="item-name">Espresso</h3>
+                        <span class="item-price">Rp 18.000</span>
+                    </div>
+                    <p class="item-desc">Ekstraksi murni biji kopi arabika pilihan dengan aroma pekat, rasa kaya, dan lapisan crema tebal.</p>
+                </div>
+            </article>
+
+            <!-- 2. Americano -->
+            <article class="menu-card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80" alt="Americano" loading="lazy">
+                    <span class="card-badge">Classic Coffee</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-header">
+                        <h3 class="item-name">Americano</h3>
+                        <span class="item-price">Rp 22.000</span>
+                    </div>
+                    <p class="item-desc">Perpaduan espresso dengan air panas/es. Segar, nikmat, dan pas untuk membangkitkan fokus Anda.</p>
+                </div>
+            </article>
+
+            <!-- 3. Caffè Latte -->
+            <article class="menu-card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=600&q=80" alt="Caffè Latte" loading="lazy">
+                    <span class="card-badge">Milk Based</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-header">
+                        <h3 class="item-name">Caffè Latte</h3>
+                        <span class="item-price">Rp 28.000</span>
+                    </div>
+                    <p class="item-desc">Kombinasi espresso lembut dengan steamed milk gurih dan sentuhan latte art yang indah.</p>
+                </div>
+            </article>
+
+            <!-- 4. Cappuccino -->
+            <article class="menu-card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=600&q=80" alt="Cappuccino" loading="lazy">
+                    <span class="card-badge">Milk Based</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-header">
+                        <h3 class="item-name">Cappuccino</h3>
+                        <span class="item-price">Rp 28.000</span>
+                    </div>
+                    <p class="item-desc">Keseimbangan rasa espresso yang mantap dipadu dengan busa susu tebal nan lembut.</p>
+                </div>
+            </article>
+
+            <!-- 5. Caramel Macchiato -->
+            <article class="menu-card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1485808191679-5f86510681a2?auto=format&fit=crop&w=600&q=80" alt="Caramel Macchiato" loading="lazy">
+                    <span class="card-badge">Signature</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-header">
+                        <h3 class="item-name">Caramel Macchiato</h3>
+                        <span class="item-price">Rp 32.000</span>
+                    </div>
+                    <p class="item-desc">Susu vanila hangat dilapisi espresso segar dan siraman saus karamel manis legit di atasnya.</p>
+                </div>
+            </article>
+
+            <!-- 6. Kopi Susu Aren -->
+            <article class="menu-card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=600&q=80" alt="Kopi Susu Aren" loading="lazy">
+                    <span class="card-badge">Best Seller</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-header">
+                        <h3 class="item-name">Kopi Susu Aren</h3>
+                        <span class="item-price">Rp 25.000</span>
+                    </div>
+                    <p class="item-desc">Perpaduan khas espresso, susu segar, dan rasa manis alami dari gula aren asli Indonesia.</p>
+                </div>
+            </article>
+
+            <!-- 7. Matcha Latte -->
+            <article class="menu-card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80" alt="Matcha Latte" loading="lazy">
+                    <span class="card-badge">Non-Coffee</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-header">
+                        <h3 class="item-name">Matcha Latte</h3>
+                        <span class="item-price">Rp 30.000</span>
+                    </div>
+                    <p class="item-desc">Bubuk matcha Uji impor dari Jepang yang dilarutkan bersama susu manis gurih yang menenangkan.</p>
+                </div>
+            </article>
+
+            <!-- 8. Chocolate Cream -->
+            <article class="menu-card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?auto=format&fit=crop&w=600&q=80" alt="Chocolate Cream" loading="lazy">
+                    <span class="card-badge">Non-Coffee</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-header">
+                        <h3 class="item-name">Chocolate Cream</h3>
+                        <span class="item-price">Rp 28.000</span>
+                    </div>
+                    <p class="item-desc">Minuman cokelat Belgia pekat dengan tekstur velvety creamy dan taburan bubuk cokelat premium.</p>
+                </div>
+            </article>
+
+            <!-- 9. Butter Croissant -->
+            <article class="menu-card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80" alt="Butter Croissant" loading="lazy">
+                    <span class="card-badge">Pastry</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-header">
+                        <h3 class="item-name">Butter Croissant</h3>
+                        <span class="item-price">Rp 22.000</span>
+                    </div>
+                    <p class="item-desc">Pastry renyah berlapis khas Prancis dengan keharuman dan rasa gurih mentega yang melimpah.</p>
+                </div>
+            </article>
+
+            <!-- 10. Red Velvet Cake -->
+            <article class="menu-card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?auto=format&fit=crop&w=600&q=80" alt="Red Velvet Cake" loading="lazy">
+                    <span class="card-badge">Dessert</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-header">
+                        <h3 class="item-name">Red Velvet Cake</h3>
+                        <span class="item-price">Rp 35.000</span>
+                    </div>
+                    <p class="item-desc">Potongan kue red velvet lembut dengan olahan cream cheese manis gurih sebagai pendamping kopi Anda.</p>
+                </div>
+            </article>
+
+        </div>
+
+        <!-- Section Pembayaran QRIS -->
+        <section class="qris-section">
+            <h2 class="section-title">Pembayaran Non-Tunai</h2>
+            <div class="section-divider"></div>
+            <p style="margin-top: 15px; color: var(--text-body);">Scan kode QRIS di bawah ini menggunakan e-wallet (Gopay, OVO, Dana, ShopeePay) atau M-Banking Anda.</p>
+            
+            <div class="qris-card">
+                <!-- Ubah src di bawah ini sesuai nama file QR yang disimpan -->
+                <img src="qris-hanstoree.jpg" alt="QRIS Pembayaran - Han Storee (NMID: ID1025452863968)">
+            </div>
+            
+            <div class="qris-info">
+                <p><strong>Merchant:</strong> Han Storee</p>
+                <p><strong>NMID:</strong> ID1025452863968</p>
+            </div>
+        </section>
+
+        <!-- Info & Kontak Section -->
+        <section class="info-section">
+            <div class="info-box">
+                <h3>📍 Lokasi & Operasional</h3>
+                <p><strong>Kopi Senja</strong></p>
+                <p>Jl. Merdeka, NO. 25,Pulau Palas,Tembilahan Hulu</p>
+                <p style="margin-top: 10px;"><strong>Jam Buka:</strong></p>
+                <p>Senin – Minggu: 08.00 - 22.00 WIB</p>
+            </div>
+            
+            <div class="info-box">
+                <h3>📱 Media Sosial & Kontak</h3>
+                <p>📸 Instagram: <strong>@kopisenja</strong></p>
+                <p>🎵 TikTok: <strong>@kopisenja.id</strong></p>
+                <p>💬 WhatsApp: <strong>+62 822-8797-9034</strong></p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Kedai Kopi Senja. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
