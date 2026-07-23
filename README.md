@@ -1,2 +1,2 @@
-# Kedai Coffee-Senja
+# Coffee-Senja
 Nikmati setiap tegukan
